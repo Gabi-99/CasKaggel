@@ -134,7 +134,7 @@ Para ver los resultados he creado las siguientes gráficas:
 
 ![alt text](https://github.com/Gabi-99/CasKaggel/blob/e33431b56b658d99c371af3d4017a58a48aa7bdf/img/Logistic%20Regression%20ovr.png)
 
-![alt text](https://github.com/Gabi-99/CasKaggel/blob/e33431b56b658d99c371af3d4017a58a48aa7bdf/img/Logistic%20Regression%20multinomial.png)
+![alt text](https://github.com/Gabi-99/CasKaggel/blob/d98d23657c71825ae6adcbc4870445e2825d41bb/img/Logistic%20Regression%20multinomial.png)
 
 Los decision tree han demostrado ser muy rápidos y ser capaces de trabajar con volúmenes de datos grandes, además con valores muy cercanos a 1.
 
@@ -143,3 +143,13 @@ Los decision tree han demostrado ser muy rápidos y ser capaces de trabajar con 
 Por último queríamos poner a prueba los SVM, pero ha sido imposible porque no han sido capaces de procesar un volumen de datos tan grande para ellos y tras una larga espera decidí darme por vencido.
 
 # Conclusion
+
+Tras analizar a fondo este caso he podido llegar a la conclusión de que es tan importante seleccionar bien los datos, como ser consciente del volumen de datos que estás trabajando.
+
+Ya que los modelos como hemos podido ver a pesar de tener pocas variable de entrada y una C muy pequeña los resultados estaban muy cercanos a 1 a causa del gran volumen de datos con el que entrenaban. 
+
+Realmente en este caso me ha sido muy complicado evitar el overfitting.
+
+También he podido observar que la normalización es una herramienta muy poderosa pero en casos concretos no nos aporta ningúna información.
+
+Por último este caso práctico me ha servido también para entender que realmente hay diferencias muy grandes entre los distintos modelos, por ejemplo en este caso los SVM necesitaban mucho tiempo de ejecución, demasiado para competir con los árboles de decisión o la regresión logística.
