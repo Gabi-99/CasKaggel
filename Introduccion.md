@@ -22,4 +22,8 @@ Contienen la siguiente inform:
 
 Estos objects como podemos ver no contienen solo una contraseña, en ellos se encuentra tambien un correo electronico, una IP y un nombre. Estos datos se convertirian en ruido para nuestros modelos y podrian perturbar el resultado final asi que tendran que ser eliminados.
 
+Por último hacemos un análisis de la distribución de la variable "strength", de tal manera que sabremos si está equilibrada el numer de contraseñas o por lo contrario en número de estas varía para los diferentes valores de "strength".
 
+![alt text](https://github.com/Gabi-99/CasKaggel/blob/8d4a7504bce861f0add2c0842945fb59de988e52/img/distribuci%C3%B3.png)
+
+Como podemos ver tenemos un numero de contraseñas para el valor de "strength" 1 muy superior al resto, asi que tendremos que tenerlo en cuenta para saber si influye negativamente a nuestra modelizacion.
