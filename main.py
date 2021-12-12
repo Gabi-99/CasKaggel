@@ -4,19 +4,13 @@ import csv
 import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
-import scipy.stats
 import seaborn as sns
-import math
 
 from sklearn.linear_model import LogisticRegression
-from sklearn import svm, datasets
+from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import f1_score, plot_confusion_matrix, accuracy_score
-import seaborn as sns
-from sklearn.neural_network import MLPClassifier
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.model_selection import cross_val_score
-from sklearn.metrics import confusion_matrix
 
 # #################################################################################
 # analisis dataset original
@@ -60,6 +54,21 @@ dataset['upper'] = [len([j for j in i if j.isupper()]) for i in dataset['passwor
 dataset['digit'] = [len([j for j in i if j.isdigit()]) for i in dataset['password']] #numeros
 dataset['special'] = [len([j for j in i if not j.isdigit() and not j.isalpha()]) for i in dataset['password']] #caracters especials
 
+plt.figure()
+ax1 = plt.subplot2grid((3, 2), (0, 0))
+ax1 = sns.histplot(y='length', data=dataset)
+ax2 = plt.subplot2grid((3, 2), (0, 1))
+ax2 = sns.histplot(y='alpha_freq', data=dataset)
+ax3 = plt.subplot2grid((3, 2), (1, 0))
+ax3 = sns.histplot(y='lower', data=dataset)
+ax4 = plt.subplot2grid((3, 2), (1, 1))
+ax4 = sns.histplot(y='upper', data=dataset)
+ax5 = plt.subplot2grid((3, 2), (2, 0))
+ax5 = sns.histplot(y='digit', data=dataset)
+ax6 = plt.subplot2grid((3, 2), (2, 1))
+ax6 = sns.histplot(y='special', data=dataset)
+plt.show()
+
 print(" ")
 print("dataset.info()")
 print(dataset.info())
@@ -79,11 +88,15 @@ print("")
 print("Balanç de les etiquetes: ")
 print(df)
 print("")
+plt.figure()
+sns.countplot(x='strength', data = dataset)
+plt.show()
+
 
 # #################################################################################
 # correlació
 # #################################################################################
-"""
+
 data = dataset.values
 
 x = data[:, :7]
@@ -98,7 +111,7 @@ plt.xticks(rotation=90)
 plt.yticks(rotation=90)
 ax = sns.heatmap(correlacio, annot=True, linewidths=.5)
 plt.show()
-"""
+
 # #################################################################################
 # normalització
 # #################################################################################
@@ -150,18 +163,17 @@ x_t, x_v, y_t, y_v = train_test_split(X, y, train_size=0.7)
 # #################################################################################
 
 # multi_class="ovr"
-C = 0.1
+Cs = [0.1, 0.2, 0.3, 0.4, 0.5]
 scores_array = []
 plot_labels = []
 
 print("\nLogistic regression multi_class=ovr accuracy score:")
 for i in range(5):
-    logireg = LogisticRegression(C=C, tol=0.001, multi_class="ovr", max_iter=10000)
+    logireg = LogisticRegression(C=Cs[i], tol=0.001, multi_class="ovr", max_iter=10000)
     scores = cross_val_score(logireg, x_t, y_t, cv=5, scoring='accuracy')
     scores_array.append(scores.mean())
-    plot_labels.append(str(C))
-    print("[C=" + str(C) + "]: " + str(scores.mean()))
-    C = C + 0.1
+    plot_labels.append(str(Cs[i]))
+    print("[C=" + str(Cs[i]) + "]: " + str(scores.mean()))
 
 fig = plt.figure()
 plt.rcParams.update({'font.size': 8})
@@ -174,18 +186,17 @@ fig.suptitle('Cross-validation accuracy score per LOGISTIC REGRESSION\n amb mult
 plt.show()
 
 # multi_class="multinomial"
-C = 0.1
+Cs = [0.1, 0.2, 0.3, 0.4, 0.5]
 scores_array = []
 plot_labels = []
 
 print("\nLogistic regression multi_class=multinomial accuracy score:")
 for i in range(5):
-    logireg = LogisticRegression(C=C, tol=0.001, multi_class="multinomial", max_iter=10000)
+    logireg = LogisticRegression(C=Cs[i], tol=0.001, multi_class="multinomial", max_iter=10000)
     scores = cross_val_score(logireg, x_t, y_t, cv=5, scoring='accuracy')
     scores_array.append(scores.mean())
-    plot_labels.append(str(C))
-    print("[C=" + str(C) + "]: " + str(scores.mean()))
-    C = C + 0.1
+    plot_labels.append(str(Cs[i]))
+    print("[C=" + str(Cs[i]) + "]: " + str(scores.mean()))
 
 fig = plt.figure()
 plt.plot(plot_labels, scores_array)
@@ -195,12 +206,31 @@ plt.ylabel('Accuracy')
 fig.suptitle('Cross-validation accuracy score per LOGISTIC REGRESSION\n amb multi_class=multinomial')
 plt.show()
 
-"""
+# #################################################################################
+# Decision Tree Classifier
+# #################################################################################
+
+# criterion=gini
+scores_array = []
+
+print("\nDecision Tree amb criterion=gini accuracy score:")
+dTree_g = DecisionTreeClassifier(criterion="gini")
+scores = cross_val_score(dTree_g, x_t, y_t, cv=5, scoring='accuracy')
+print(str(scores.mean()))
+
+# criterion=entropy
+scores_array = []
+
+print("\nDecision Tree amb criterion=entropy accuracy score:")
+dTree_e = DecisionTreeClassifier(criterion="entropy")
+scores = cross_val_score(dTree_e, x_t, y_t, cv=5, scoring='accuracy')
+print(str(scores.mean()))
+
 
 # #################################################################################
 # SVM
 # #################################################################################
-
+"""
 # kernel='linear'
 C = 0.1
 scores_array = []
